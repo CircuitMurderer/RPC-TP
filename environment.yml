@@ -1,4 +1,4 @@
-name: seita
+name: rpctp
 channels:
   - pytorch
   - nvidia

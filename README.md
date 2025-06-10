@@ -1,5 +1,5 @@
 # RPC-TP
-RPC (Reconstruct, Perturb, Constrain) adversarial attack paradigm implementation for Trajectory Prediction.
+RPC (Reconstruct, Perturb, Constrain) adversarial attack paradigm implementation for Trajectory Prediction. Trained on [Argoverse 2](https://argoverse.github.io/user-guide) dataset; evaluated on [Forecast-MAE](https://github.com/jchengai/forecast-mae), [QCNet](https://github.com/ZikangZhou/QCNet) and [DeMo](https://github.com/fudan-zvg/DeMo) models.
 
 ## Usage 
 
@@ -8,13 +8,13 @@ RPC (Reconstruct, Perturb, Constrain) adversarial attack paradigm implementation
 **Step 0.** Clone the repo:
 ```shell
 git clone git@github.com:celestial-bard/RPC-TP.git
-cd seita
+cd RPC-TP
 ```
 
 **Step 1.** Create the conda environment:
 ```shell
 conda env create -f environment.yml
-conda activate seita
+conda activate rpctp
 ```
 
 **Step 2.** Install [PyTorch](https://pytorch.org/) and [Lightning](https://lightning.ai/pytorch-lightning/) (You can change the url according to your CUDA version):
@@ -97,7 +97,16 @@ Just run
 ```shell
 python write_attack.py
 ```
-and remember to change the dataset path in the script `write_attack.py`, then you can go to `exp_methods` dir and run their validate scripts with attacked dataset (default path is **/path/to/av2/../av2_attacked**)
+and remember to change the dataset path in the script `write_attack.py`, then you can go to `exp_methods` dir and run their validate/evaluate scripts (such as `val.py` or `eval.py`) with *attacked dataset* (default path is **`/path/to/av2/../av2_attacked`**, you can modify the command-line argument or configuration file to use attacked dataset) instead of original dataset. Then you can see the attack result below, same as it in paper:
+
+| Attack  | Pred. Method | minADE_1       | minADE_6       | minFDE_1       | minFDE_6       | MR_6           |
+|---------|--------------|----------------|----------------|----------------|----------------|----------------|
+| Benign  | Forecast-MAE | 1.744          | 0.712          | 4.376          | 1.408          | 0.178          |
+| Benign  | QCNet        | 1.687          | 0.720          | 4.316          | 1.253          | 0.157          |
+| Benign  | DeMo         | 1.578          | 0.645          | 3.961          | 1.247          | 0.155          |
+| RPC-TP | Forecast-MAE | 2.601 (49.1% ↑)| 1.101 (54.6% ↑)| 5.883 (34.4% ↑)| 2.002 (42.2% ↑)| 0.273 (53.4% ↑)|
+| RPC-TP | QCNet        | 2.999 (77.8% ↑)| 1.441 (100% ↑) | 7.043 (63.2% ↑)| 2.515 (101% ↑) | 0.412 (162% ↑) |
+| RPC-TP | DeMo         | 2.482 (57.3% ↑)| 1.137 (76.2% ↑)| 5.858 (47.9% ↑)| 2.141 (71.7% ↑)| 0.337 (117% ↑) |
 
 ## Acknowledgement
 
