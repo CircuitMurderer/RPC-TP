@@ -1,7 +1,7 @@
 @font-face {
   font-family: 'MiSans Latin';
   src: url('fonts/MiSansLatin-Thin.woff2') format('woff2');
-  font-weight: 100; /* -- Thin -- */
+  font-weight: 100; 
   font-style: normal;
 }
 
@@ -177,7 +177,7 @@ h2 {
     max-width: 100%;
     height: auto;
     border-radius: 5px;
-    border: 1px solid #ddd;
+    /* border: 1px solid #ddd; */
 }
 
 figcaption {
@@ -193,41 +193,32 @@ footer {
     color: #888;
 }
 
-/*
-=================================================
- 表格样式 (Table Styles)
-=================================================
-*/
-
-/* 响应式容器：当屏幕过窄时，允许表格横向滚动 */
 .results-table-container {
     width: 100%;
     overflow-x: auto;
     margin: 30px 0;
-    -webkit-overflow-scrolling: touch; /* 在iOS上提供更平滑的滚动 */
+    -webkit-overflow-scrolling: touch; 
 }
 
-/* 表格主体样式 */
 .results-table {
     width: 100%;
-    min-width: 750px; /* 保证在较宽屏幕下表格也能铺满，同时设置一个最小宽度 */
-    border-collapse: collapse; /* 合并边框 */
-    font-size: 0.9em; /* 稍小的字体以容纳更多内容 */
-    font-variant-numeric: tabular-nums; /* 让数字等宽，便于对齐 */
+    min-width: 750px; 
+    border-collapse: collapse; 
+    font-size: 0.9em; 
+    font-variant-numeric: tabular-nums; 
 }
 
-/* 表格标题 */
+
 .results-table caption {
     caption-side: top;
     text-align: center;
     font-size: 1.1em;
-    font-weight: 600; /* 使用 Semibold 字重 */
+    font-weight: 600; 
     padding: 10px;
     margin-bottom: 10px;
     color: #333;
 }
 
-/* 表格的单元格和表头 */
 .results-table th,
 .results-table td {
     padding: 10px 12px;
