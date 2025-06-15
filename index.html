@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reconstruct, Perturb, Constrain, then Attack</title>
+
+    <link rel="stylesheet" type="text/css" href="index.css">
+</head>
+<body>
+
+    <div class="container">
+
+        <h1>Reconstruct, Perturb, Constrain, then Attack: A Generative Adversarial Attack Paradigm and Implementation for Trajectory Prediction</h1>
+        <p class="authors">Yuqi Zhao, Libing Wu, Zhuangzhuang Zhang</p>
+        <p class="venue">Wuhan University, 2025</p>
+
+        <div class="button-container">
+            <a href="docs/appendix.pdf" class="button" target="_blank">📄 Paper</a>
+            <a href="docs/appendix.pdf" class="button button-supplementary" target="_blank">➕ Supplementary</a>
+            <a href="https://github.com/CircuitMurderer/RPC-TP" class="button button-code" target="_blank">💻 Code</a>
+        </div>
+
+        <h2>Abstract</h2>
+        <div class="abstract-content">
+            <p>
+                Adversarial attacks have become a critical threat to deep learning models, often causing them to produce incorrect predictions. To further exploit the vulnerabilities of deep learning models, numerous adversarial attack methods have been proposed. However, traditional gradient-based multi-step optimization attack methods often fail to meet real-time processing demands in high-speed applications such as autonomous driving, significantly limiting their practical utility.
+            </p>
+            <p>
+                In this paper, we propose a generative adversarial attack paradigm, RPC, which employs a generative approach to craft targeted and black-box adversarial attacks. RPC consists of three steps: reconstruct, perturb, and constrain. First, it reconstructs the original sample that could lead to the given prediction from the target sample. Then, directional perturbations are applied to the attacked sample to bring it closer to the original sample. Finally, constraints, such as stealthiness, are imposed on the attacked sample.             
+            </p>
+            <p>
+                We apply the RPC paradigm to the scenario of trajectory prediction in autonomous driving and design an attack method for evaluation. Experiments show that, after being attacked by our method, the error rate of state-of-the-art trajectory prediction methods increased by 48% to 111% on various traditional metrics of trajectory prediction, while also steering towards the predefined attack goals. In comparison, previous adversarial attacks in the trajectory prediction scenario, under real-time constraints, could only increase the error rate by 21% to 35%. Under the constraint of equivalent attack effectiveness, our method takes only 0.5% of the time required by previous methods to generate adversarial examples, with an average improvement in stealthiness of 55%.
+            </p>
+        </div>
+
+        <h2>Results</h2>
+        <p>
+            Qualitative results are listed below:
+        </p>
+        
+        <div class="results-figure">
+            <img src="assets/results.png" alt="Quantitative Result">
+            <figcaption>RPC-driven attack can effectively mislead prediction of TP model.</figcaption>
+        </div>
+        <p>
+            Quantitative results are listed below:
+        </p>
+        
+        <div class="results-table-container">
+            <table class="results-table">
+                <caption>RPC-driven attack can effectively increase the prediction error rate.</caption>
+                <thead>
+                    <tr>
+                        <th rowspan="2">Attack</th>
+                        <th rowspan="2">Pred. Method</th>
+                        <th colspan="2">minADE<sub>1</sub></th>
+                        <th colspan="2">minADE<sub>6</sub></th>
+                        <th colspan="2">minFDE<sub>1</sub></th>
+                        <th colspan="2">minFDE<sub>6</sub></th>
+                        <th colspan="2">MR<sub>6</sub></th>
+                    </tr>
+                    <tr>
+                        <th>Val.</th><th>Inc.</th>
+                        <th>Val.</th><th>Inc.</th>
+                        <th>Val.</th><th>Inc.</th>
+                        <th>Val.</th><th>Inc.</th>
+                        <th>Val.</th><th>Inc.</th>
+                    </tr>
+                </thead>
+                
+                <tbody>
+                    <tr>
+                        <td rowspan="3" class="row-header">Benign</td>
+                        <td>Forecast-MAE</td>
+                        <td>1.744</td><td>-</td>
+                        <td>0.712</td><td>-</td>
+                        <td>4.376</td><td>-</td>
+                        <td>1.408</td><td>-</td>
+                        <td>0.178</td><td>-</td>
+                    </tr>
+                    <tr>
+                        <td>QCNet</td>
+                        <td>1.687</td><td>-</td>
+                        <td>0.720</td><td>-</td>
+                        <td>4.316</td><td>-</td>
+                        <td>1.253</td><td>-</td>
+                        <td>0.157</td><td>-</td>
+                    </tr>
+                    <tr>
+                        <td>DeMo</td>
+                        <td>1.578</td><td>-</td>
+                        <td>0.645</td><td>-</td>
+                        <td>3.961</td><td>-</td>
+                        <td>1.247</td><td>-</td>
+                        <td>0.155</td><td>-</td>
+                    </tr>
+                </tbody>
+                <tbody>
+                    <tr>
+                        <td rowspan="3" class="row-header">AdvTP Grad.</td>
+                        <td>Forecast-MAE</td>
+                        <td>2.441</td><td class="increase">39.9%</td>
+                        <td>0.991</td><td class="increase">39.2%</td>
+                        <td>5.480</td><td class="increase">25.2%</td>
+                        <td>1.769</td><td class="increase">25.6%</td>
+                        <td>0.240</td><td class="increase">34.8%</td>
+                    </tr>
+                    <tr>
+                        <td>QCNet</td>
+                        <td>2.177</td><td class="increase">29.0%</td>
+                        <td>0.956</td><td class="increase">32.7%</td>
+                        <td>5.066</td><td class="increase">17.4%</td>
+                        <td>1.473</td><td class="increase">17.5%</td>
+                        <td>0.206</td><td class="increase">31.2%</td>
+                    </tr>
+                    <tr>
+                        <td>DeMo</td>
+                        <td>2.112</td><td class="increase">33.8%</td>
+                        <td>0.862</td><td class="increase">33.6%</td>
+                        <td>4.760</td><td class="increase">20.2%</td>
+                        <td>1.497</td><td class="increase">20.0%</td>
+                        <td>0.193</td><td class="increase">24.5%</td>
+                    </tr>
+                </tbody>
+                <tbody>
+                    <tr>
+                        <td rowspan="3" class="row-header">AdvTP Opti.</td>
+                        <td>Forecast-MAE</td>
+                        <td>1.944</td><td class="increase">11.5%</td>
+                        <td>0.794</td><td class="increase">11.6%</td>
+                        <td>4.571</td><td class="increase">4.5%</td>
+                        <td>1.545</td><td class="increase">9.7%</td>
+                        <td>0.198</td><td class="increase">11.3%</td>
+                    </tr>
+                    <tr>
+                        <td>QCNet</td>
+                        <td>1.828</td><td class="increase">8.4%</td>
+                        <td>0.789</td><td class="increase">9.6%</td>
+                        <td>4.449</td><td class="increase">3.1%</td>
+                        <td>1.336</td><td class="increase">6.6%</td>
+                        <td>0.173</td><td class="increase">10.1%</td>
+                    </tr>
+                    <tr>
+                        <td>DeMo</td>
+                        <td>1.732</td><td class="increase">9.7%</td>
+                        <td>0.709</td><td class="increase">9.9%</td>
+                        <td>4.102</td><td class="increase">3.6%</td>
+                        <td>1.342</td><td class="increase">7.6%</td>
+                        <td>0.167</td><td class="increase">7.9%</td>
+                    </tr>
+                </tbody>
+                <tbody>
+                    <tr>
+                        <td rowspan="3" class="row-header">SA-Attack</td>
+                        <td>Forecast-MAE</td>
+                        <td>2.303</td><td class="increase">32.1%</td>
+                        <td>0.916</td><td class="increase">28.6%</td>
+                        <td>5.259</td><td class="increase">20.2%</td>
+                        <td>1.709</td><td class="increase">21.4%</td>
+                        <td>0.225</td><td class="increase">26.2%</td>
+                    </tr>
+                    <tr>
+                        <td>QCNet</td>
+                        <td>2.080</td><td class="increase">23.3%</td>
+                        <td>0.892</td><td class="increase">23.9%</td>
+                        <td>4.917</td><td class="increase">13.9%</td>
+                        <td>1.436</td><td class="increase">14.6%</td>
+                        <td>0.194</td><td class="increase">23.5%</td>
+                    </tr>
+                    <tr>
+                        <td>DeMo</td>
+                        <td>2.007</td><td class="increase">27.2%</td>
+                        <td>0.803</td><td class="increase">24.6%</td>
+                        <td>4.602</td><td class="increase">16.2%</td>
+                        <td>1.455</td><td class="increase">16.7%</td>
+                        <td>0.184</td><td class="increase">18.4%</td>
+                    </tr>
+                </tbody>
+                <tbody>
+                    <tr>
+                        <td rowspan="3" class="row-header">Our RPC</td>
+                        <td>Forecast-MAE</td>
+                        <td>2.601</td><td class="increase strong-increase">49.1%</td>
+                        <td>1.101</td><td class="increase strong-increase">54.6%</td>
+                        <td>5.883</td><td class="increase strong-increase">34.4%</td>
+                        <td>2.002</td><td class="increase strong-increase">42.2%</td>
+                        <td>0.273</td><td class="increase strong-increase">53.4%</td>
+                    </tr>
+                    <tr>
+                        <td>QCNet</td>
+                        <td>2.999</td><td class="increase strong-increase">77.8%</td>
+                        <td>1.441</td><td class="increase strong-increase">100%</td>
+                        <td>7.043</td><td class="increase strong-increase">63.2%</td>
+                        <td>2.515</td><td class="increase strong-increase">101%</td>
+                        <td>0.412</td><td class="increase strong-increase">162%</td>
+                    </tr>
+                    <tr>
+                        <td>DeMo</td>
+                        <td>2.482</td><td class="increase strong-increase">57.3%</td>
+                        <td>1.137</td><td class="increase strong-increase">76.2%</td>
+                        <td>5.858</td><td class="increase strong-increase">47.9%</td>
+                        <td>2.141</td><td class="increase strong-increase">71.7%</td>
+                        <td>0.337</td><td class="increase strong-increase">117%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <footer>
+            <p>Contact me: <a href="mailto:kaleidoscope@whu.edu.cn">kaleidoscope@whu.edu.cn</a></p>
+        </footer>
+
+    </div>
+
+</body>
+</html>
